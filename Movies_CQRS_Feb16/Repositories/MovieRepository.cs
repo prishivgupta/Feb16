@@ -5,7 +5,7 @@ using Movies_CQRS_Feb16.Models;
 namespace Movies_CQRS_Feb16.Repositories
 {
     public class MovieRepository : IMovie
-    {
+    { 
         private readonly MoviesContext moviesContext;
 
         public MovieRepository(MoviesContext moviesContext)
@@ -38,7 +38,7 @@ namespace Movies_CQRS_Feb16.Repositories
 
         public List<Movie> GetAllMovies()
         {
-            return this.moviesContext.Movies.ToList();
+            return this.moviesContext.Movies.Include(m => m.Genre).ToList();
         }
 
         public Movie GetMovieByGenre(int genreId)
@@ -48,7 +48,7 @@ namespace Movies_CQRS_Feb16.Repositories
 
         public Movie GetMovieById(int id)
         {
-            var movie = this.moviesContext.Movies.Where(j => j.MovieId == id).FirstOrDefault();
+            var movie = this.moviesContext.Movies.Where(j => j.MovieId == id).Include(m => m.Genre).FirstOrDefault();
             return movie;
         }
 
